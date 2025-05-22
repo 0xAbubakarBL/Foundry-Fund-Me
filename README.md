@@ -92,8 +92,8 @@ This project is licensed under the MIT License.
 
 ## 📬 Contact
 
-- Twitter: [@yourhandle](https://twitter.com/yourhandle)
-- Email: your@email.com
+- Twitter: [@0xAbubakarBL](https://x.com/0xAbubakarBL)
+- Email: 0xAbubakarBL@gmail.com
 
 ---
 
