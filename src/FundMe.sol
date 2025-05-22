@@ -10,14 +10,13 @@ pragma solidity ^0.8.18;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./PriceConverter.sol";
 
-error FundMe__NotOwner();
-
-event Funded(address indexed funder, uint256 amount);
-
-event Withdrawn(address indexed owner, uint256 amount);
-
 contract FundMe {
     using PriceConverter for uint256;
+
+    error FundMe__NotOwner();
+
+    event Funded(address indexed funder, uint256 amount);
+    event Withdrawn(address indexed owner, uint256 amount);
 
     mapping(address => uint256) public s_addressToAmountFunded;
     address[] public s_funders;

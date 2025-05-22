@@ -115,7 +115,7 @@ contract FundMeTest is Test {
         uint256 startingFundMeBalance = address(fundMe).balance;
         // Act
         vm.startPrank(fundMe.getOwner());
-        fundMe.cheaperWithdraw();
+        fundMe.withdraw();
         vm.stopPrank();
 
         // Assert

@@ -59,7 +59,7 @@ Send ETH to the contract address using your wallet or scripts.
 ## 🌐 Demo
 
 - **Sepolia Testnet Contract:**  
-  [0x9CC301Aeb678a404eF21F43d3aAfEfCA7ac53199 on Etherscan](https://sepolia.etherscan.io/address/0x9CC301Aeb678a404eF21F43d3aAfEfCA7ac53199)
+  [0x3af14F4522680fAf2b38FEF1a2721363A098a2E1 on Etherscan](https://sepolia.etherscan.io/address/0x3af14F4522680fAf2b38FEF1a2721363A098a2E1)
 
 ---
 
