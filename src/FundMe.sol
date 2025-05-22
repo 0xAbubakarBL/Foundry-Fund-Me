@@ -1,22 +1,30 @@
+/*///////////////////////////////////////////////////////////////////
+//                          VERSION                               //
+/////////////////////////////////////////////////////////////////*/
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-// Note: The AggregatorV3Interface might be at a different location than what was in the video!
+/*///////////////////////////////////////////////////////////////////
+//                          IMPORTS                               //
+/////////////////////////////////////////////////////////////////*/
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./PriceConverter.sol";
 
 error FundMe__NotOwner();
+
+event Funded(address indexed funder, uint256 amount);
+
+event Withdrawn(address indexed owner, uint256 amount);
 
 contract FundMe {
     using PriceConverter for uint256;
 
     mapping(address => uint256) public s_addressToAmountFunded;
     address[] public s_funders;
+    AggregatorV3Interface private s_priceFeed;
 
-    // Could we make this constant?  /* hint: no! We should make it immutable! */
     address private immutable i_owner;
     uint256 public constant MINIMUM_USD = 5e18;
-    AggregatorV3Interface private s_priceFeed;
 
     constructor(address priceFeed) {
         i_owner = msg.sender;
@@ -24,13 +32,12 @@ contract FundMe {
     }
 
     function fund() public payable {
-        require(
-            msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
-            "You need to spend more ETH!"
-        );
-        // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
+        require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
+        if (s_addressToAmountFunded[msg.sender] == 0) {
+            s_funders.push(msg.sender);
+        }
         s_addressToAmountFunded[msg.sender] += msg.value;
-        s_funders.push(msg.sender);
+        emit Funded(msg.sender, msg.value);
     }
 
     function getVersion() public view returns (uint256) {
@@ -43,41 +50,16 @@ contract FundMe {
         _;
     }
 
-    function cheaperWithdraw() public onlyOwner {
-        uint256 fundersLength = s_funders.length;
-        for (uint funderIndex = 0; funderIndex < fundersLength; funderIndex++) {
-            address funder = s_funders[funderIndex];
-            s_addressToAmountFunded[funder] = 0;
-        }
-        s_funders = new address[](0);
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
-        require(callSuccess, "Call failed");
-    }
-
     function withdraw() public onlyOwner {
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < s_funders.length;
-            funderIndex++
-        ) {
+        uint256 fundersLength = s_funders.length;
+        for (uint256 funderIndex = 0; funderIndex < fundersLength; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
-        // // transfer
-        // payable(msg.sender).transfer(address(this).balance);
-
-        // // send
-        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        // require(sendSuccess, "Send failed");
-
-        // call
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
+        emit Withdrawn(msg.sender, address(this).balance);
     }
 
     // Explainer from: https://solidity-by-example.org/fallback/
@@ -103,9 +85,7 @@ contract FundMe {
     /**
      * View/Pure Functions (Getters)
      */
-    function getAddressToAmountFunded(
-        address fundingAddress
-    ) external view returns (uint256) {
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
 

@@ -1,66 +1,100 @@
-## Foundry
+# 🚀 Fund Me Dapp
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A secure, decentralized crowdfunding smart contract built with [Foundry](https://github.com/foundry-rs/foundry) and Solidity. Accepts ETH contributions, enforces a minimum USD value via Chainlink price feeds, and allows only the owner to withdraw funds.
 
-Foundry consists of:
+---
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## ✨ Features
 
-## Documentation
+- **Decentralized Crowdfunding:** Anyone can fund, only the owner can withdraw.
+- **Chainlink Price Feeds:** Enforces a minimum funding amount in USD.
+- **Gas Optimized:** Efficient withdrawal and error handling.
+- **Comprehensive Testing:** Built with Foundry’s robust test suite.
+- **Upgradeable & Auditable:** Modular, readable, and ready for audits.
 
-https://book.getfoundry.sh/
+---
 
-## Usage
+## 🛠️ Getting Started
 
-### Build
+### Prerequisites
 
-```shell
-$ forge build
+- [Foundry](https://getfoundry.sh/)
+- [Node.js & npm](https://nodejs.org/)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+```bash
+git clone https://github.com/0xAbubakarBL/Foundry-Fund-Me.git
+cd Foundry-Fund-Me
+forge install
+```
+
+### Environment Setup
+
+Copy `.env.example` to `.env` and fill in your variables.
+
+---
+
+## 🚩 Usage
+
+### Deploy
+
+```bash
+forge script script/DeployFundMe.s.sol --broadcast --rpc-url <YOUR_RPC_URL>
 ```
 
 ### Test
 
-```shell
-$ forge test
+```bash
+forge test
 ```
 
-### Format
+### Fund
 
-```shell
-$ forge fmt
-```
+Send ETH to the contract address using your wallet or scripts.
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
-```
+## 🌐 Demo
 
-### Anvil
+- **Sepolia Testnet Contract:**  
+  [0x9CC301Aeb678a404eF21F43d3aAfEfCA7ac53199 on Etherscan](https://sepolia.etherscan.io/address/0x9CC301Aeb678a404eF21F43d3aAfEfCA7ac53199)
 
-```shell
-$ anvil
-```
+---
 
-### Deploy
+## 🧪 Testing
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+- Unit and integration tests are in the `test/` directory.
+- Run all tests with `forge test`.
 
-### Cast
+---
 
-```shell
-$ cast <subcommand>
-```
+## 🔒 Security
 
-### Help
+- Uses [OpenZeppelin Contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) for best practices.
+- Chainlink price feeds for reliable USD conversion.
+- Custom errors for gas savings and clarity.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 📬 Contact
+
+- Twitter: [@yourhandle](https://twitter.com/yourhandle)
+- Email: your@email.com
+
+---
+
+> Built with ❤️ using [Foundry](https://github.com/foundry-rs/foundry) and [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts)
